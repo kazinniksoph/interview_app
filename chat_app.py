@@ -123,16 +123,16 @@ if not st.session_state.initialized and st.session_state.interview_instructions:
 def interview(api, system_prompt, temperature, api_key, messages):
     if api == "openai":
         # Initialize client without proxies
-        client = openai.OpenAI(
-            api_key=api_key,
-        )
+        
+        openai.api_key = api_key
+        
         messages_formatted = [{"role": "system", "content": system_prompt}]
         messages_formatted.extend([
             {"role": m["role"], "content": m["content"]} 
             for m in messages
         ])
         
-        response = client.chat.completions.create(
+        response = openai.chat.completions.create(
             model="gpt-4",
             messages=messages_formatted,
             temperature=temperature,
